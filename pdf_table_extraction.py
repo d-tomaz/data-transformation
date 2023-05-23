@@ -20,3 +20,5 @@ def replace_csv_data(csv_path, column, replacement):
             csv_writer.writerow(row)
 
     os.replace(temporary_name, csv_path)
+
+tabula.convert_into(pdf_path, csv_path, pages = "all")
