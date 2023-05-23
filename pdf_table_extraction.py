@@ -25,3 +25,6 @@ tabula.convert_into(pdf_path, csv_path, pages = "all")
 
 replace_csv_data(csv_path, "OD", "Seg. Odontológica")
 replace_csv_data(csv_path, "AMB", "Seg. Ambulatorial")
+
+with zipfile.ZipFile("Teste_Daniel.zip", "w") as zip_file:
+    zip_file.write(csv_path)
