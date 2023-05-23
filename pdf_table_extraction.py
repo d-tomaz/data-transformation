@@ -22,3 +22,6 @@ def replace_csv_data(csv_path, column, replacement):
     os.replace(temporary_name, csv_path)
 
 tabula.convert_into(pdf_path, csv_path, pages = "all")
+
+replace_csv_data(csv_path, "OD", "Seg. Odontológica")
+replace_csv_data(csv_path, "AMB", "Seg. Ambulatorial")
