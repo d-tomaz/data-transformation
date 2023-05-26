@@ -12,18 +12,19 @@ csv_path = 'Anexo_I.csv'
 def replace_csv_data(csv_path, column, replacement):
     # Nome temporário para o arquivo CSV
     temporary_name = 'temporary.csv'
-    
     # Abrindo o arquivo CSV original e o arquivo temporário
     with open(csv_path, 'r') as file, open(temporary_name, 'w', newline='') as temporary_file:
-        reader = csv.reader(file)  # Leitor do arquivo CSV original
-        writer = csv.writer(temporary_file)  # Escritor do arquivo temporário
-        
+        # Leitor do arquivo CSV original
+        reader = csv.reader(file)
+        # Escritor do arquivo temporário
+        writer = csv.writer(temporary_file)
         # Iterando pelas linhas do arquivo CSV original
         for row in reader:
             # Atualizando a linha substituindo o valor da coluna especificada
             updated_row = [cell.replace(column, replacement) if cell == column else cell for cell in row]
-            writer.writerow(updated_row)  # Escrevendo a linha atualizada no arquivo temporário
-        
+            # Escrevendo a linha atualizada no arquivo temporário
+            writer.writerow(updated_row)
+            
     # Substituindo o arquivo CSV original pelo arquivo temporário
     os.replace(temporary_name, csv_path)
 
