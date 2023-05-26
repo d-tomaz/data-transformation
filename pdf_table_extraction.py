@@ -1,43 +1,39 @@
-import tabula  
-# Importa o módulo tabula para extrair dados de tabelas de um arquivo PDF
-import csv  
-# Importa o módulo csv para manipular arquivos CSV
-import os  
-# Importa o módulo os para interagir com o sistema operacional
-import zipfile  
-# Importa o módulo zipfile para manipular arquivos compactados em formato ZIP
+# Importando as bibliotecas necessárias
+import tabula
+import csv
+import os
+import zipfile
 
-pdf_path = 'Anexo_I.pdf'  
-# Define o caminho do arquivo PDF a ser convertido em CSV
-csv_path = 'Anexo_I.csv'  
-# Define o caminho do arquivo CSV resultante da conversão
+# Caminhos dos arquivos PDF e CSV
+pdf_path = 'Anexo_I.pdf'
+csv_path = 'Anexo_I.csv'
 
+# Função para substituir dados no arquivo CSV
 def replace_csv_data(csv_path, column, replacement):
-    temporary_name = 'temporary.csv'  
-    # Define um nome temporário para o arquivo CSV modificado
+    # Nome temporário para o arquivo CSV
+    temporary_name = 'temporary.csv'
+    
+    # Abrindo o arquivo CSV original e o arquivo temporário
     with open(csv_path, 'r') as file, open(temporary_name, 'w', newline='') as temporary_file:
-        # Abre o arquivo CSV original para leitura e o arquivo temporário para escrita
-        reader = csv.reader(file)  
-        # Cria um objeto reader para ler o arquivo CSV
-        writer = csv.writer(temporary_file)  
-        # Cria um objeto writer para escrever no arquivo temporário
-        for row in reader:  
-            # Itera sobre cada linha no arquivo CSV original
+        reader = csv.reader(file)  # Leitor do arquivo CSV original
+        writer = csv.writer(temporary_file)  # Escritor do arquivo temporário
+        
+        # Iterando pelas linhas do arquivo CSV original
+        for row in reader:
+            # Atualizando a linha substituindo o valor da coluna especificada
             updated_row = [cell.replace(column, replacement) if cell == column else cell for cell in row]
-            # Cria uma nova lista de células substituindo os valores da coluna especificada
-            writer.writerow(updated_row)  
-            # Escreve a linha atualizada no arquivo temporário
-    os.replace(temporary_name, csv_path)  
-    # Substitui o arquivo original pelo arquivo temporário
+            writer.writerow(updated_row)  # Escrevendo a linha atualizada no arquivo temporário
+        
+    # Substituindo o arquivo CSV original pelo arquivo temporário
+    os.replace(temporary_name, csv_path)
 
-tabula.convert_into(pdf_path, csv_path, pages='all') 
-# Converte o arquivo PDF em CSV usando o módulo tabula
+# Convertendo o PDF para CSV usando a biblioteca tabula
+tabula.convert_into(pdf_path, csv_path, pages='all')
+
+# Substituindo os dados no arquivo CSV
 replace_csv_data(csv_path, 'OD', 'Seg. Odontológica')
-# Substitui o valor "OD" pela string "Seg. Odontológica" no arquivo CSV
 replace_csv_data(csv_path, 'AMB', 'Seg. Ambulatorial')
-# Substitui o valor "AMB" pela string "Seg. Ambulatorial" no arquivo CSV
 
+# Criando um arquivo zip contendo o arquivo CSV
 with zipfile.ZipFile('Teste_Daniel.zip', 'w') as zip_file:
-    # Abre um arquivo ZIP chamado "Teste_Daniel.zip" para escrita
     zip_file.write(csv_path)
-    # Adiciona o arquivo CSV ao arquivo ZIP
